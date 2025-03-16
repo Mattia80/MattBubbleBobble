@@ -1,5 +1,9 @@
 package model;
 
+import utility.GameConstants;
+
+import java.util.ArrayList;
+
 public class Player extends AbstractEntity {
     /**
      * Specifica se il giocatore sta premendo il tasto "sinistra"
