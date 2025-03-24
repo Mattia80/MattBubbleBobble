@@ -108,10 +108,7 @@ public class HelpMethods {
     public static boolean areEntitiesTouching(Rectangle2D.Float hitbox1, Rectangle2D.Float hitbox2) {
         if (hitbox1.intersects(hitbox2))
             return true;
-        if (hitbox2.intersects(hitbox1))
-            return true;
-
-        return false;
+        return hitbox2.intersects(hitbox1);
     }
 
 }
