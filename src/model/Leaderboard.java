@@ -24,7 +24,7 @@ public class Leaderboard {
         return records.subList(0, 10);
     }
 
-    public class LeaderboardRecord implements Comparable<LeaderboardRecord> {
+    public static class LeaderboardRecord implements Comparable<LeaderboardRecord> {
         private String nickname;
         private String avatar;
         private int maxScore;
