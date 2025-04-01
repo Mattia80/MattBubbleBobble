@@ -1,14 +1,19 @@
 package controller;
 
+import gamestates.StateGamePlay;
 import view.GamePanel;
+import view.GameWindow;
 
 import java.awt.*;
 
 public class GameManager implements Runnable {
     private static GameManager instance;
     private final GamePanel gamePanel;
+    private GameWindow gameWindow;
     private final int FPS = 120;
     private final int UPS = 200;
+    private StateGamePlay gamePlayState;
+
 
     public static GameManager getInstance() {
         if (instance == null) {
@@ -19,10 +24,30 @@ public class GameManager implements Runnable {
 
     private GameManager() {
         this.gamePanel = new GamePanel(this);
+        this.initClasses();
+        this.gameWindow = new GameWindow(gamePanel);
+        this.gamePanel.setFocusable(true);
+        this.gamePanel.requestFocus();
+    }
+
+    private void initClasses() {
     }
 
     public GamePanel getGamePanel() {
         return gamePanel;
+    }
+
+    public GameWindow getGameWindow() {
+        return gameWindow;
+    }
+
+    public void startGame() {
+        this.startGameLoop();
+    }
+
+    private void startGameLoop() {
+        Thread thread = new Thread(this);
+        thread.start();
     }
 
     public void update() {
