@@ -1,6 +1,9 @@
 package controller;
 
+import gamestates.GameState;
 import gamestates.StateGamePlay;
+import inputs.KeyboardInputs;
+import inputs.MouseInputs;
 import view.GamePanel;
 import view.GameWindow;
 
@@ -31,6 +34,7 @@ public class GameManager implements Runnable {
     }
 
     private void initClasses() {
+        this.gamePlayState = new StateGamePlay(this);
     }
 
     public GamePanel getGamePanel() {
@@ -39,6 +43,10 @@ public class GameManager implements Runnable {
 
     public GameWindow getGameWindow() {
         return gameWindow;
+    }
+
+    public StateGamePlay getGamePlayState() {
+        return gamePlayState;
     }
 
     public void startGame() {
@@ -50,12 +58,23 @@ public class GameManager implements Runnable {
         thread.start();
     }
 
-    public void update() {
+    public void initListeners() {
+        MouseInputs mouseInputs = new MouseInputs(this);
+        this.gamePanel.addKeyListener(new KeyboardInputs(this));
+        this.gamePanel.addMouseListener(mouseInputs);
+        this.gamePanel.addMouseMotionListener(mouseInputs);
+    }
 
+    public void update() {
+        switch (GameState.state) {
+
+        }
     }
 
     public void render(Graphics g) {
-
+        switch (GameState.state) {
+            case GAMEPLAY -> this.gamePlayState.draw(g);
+        }
     }
 
     @Override

@@ -37,12 +37,12 @@ public class LevelController extends AbstractController {
     }
 
     private void saveRecord(Game game) {
-        GameManager gameManager = GameManager.getInstance();
-        Profile currentProfile = gameManager.getProfile().getProfile();
-        this.scoreManager = new ScoreManager(currentProfile);
-        scoreManager.updateScore((int) game.getPoints());
-        scoreManager.updateLevel(game.getLevel());
-        LeaderboardUtility.saveProfileRecord(currentProfile);
+//        GameManager gameManager = GameManager.getInstance();
+//        Profile currentProfile = gameManager.getProfile().getProfile();
+//        this.scoreManager = new ScoreManager(currentProfile);
+//        scoreManager.updateScore((int) game.getPoints());
+//        scoreManager.updateLevel(game.getLevel());
+//        LeaderboardUtility.saveProfileRecord(currentProfile);
     }
 
     @Override

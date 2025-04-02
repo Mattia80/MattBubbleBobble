@@ -30,7 +30,7 @@ public class StateGamePlay extends AbstractGameState implements StateInterface {
 
     public StateGamePlay(GameManager gameManager) {
         super(gameManager);
-        this.bubbleControllers = new ArrayList<>();
+        this.bubbleControllers = new ArrayList<BubbleController>();
         this.init();
     }
 
@@ -120,12 +120,20 @@ public class StateGamePlay extends AbstractGameState implements StateInterface {
 
     @Override
     public void update() {
-
+        this.levelController.update();
+        this.playerController.update();
+        for (BubbleController bubbleController : this.bubbleControllers) {
+            bubbleController.update();
+        }
     }
 
     @Override
     public void draw(Graphics g) {
-
+        this.levelController.renderView(g);
+        this.playerController.renderView(g);
+        for (BubbleController bubbleController : this.bubbleControllers) {
+            bubbleController.renderView(g);
+        }
     }
 
     @Override

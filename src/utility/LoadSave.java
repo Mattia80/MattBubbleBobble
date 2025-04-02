@@ -74,7 +74,7 @@ public class LoadSave {
      */
     public static BufferedImage loadSprite(String filename) {
         BufferedImage img = null;
-        InputStream is = LoadSave.class.getResourceAsStream("/sprites/" + filename);
+        InputStream is = LoadSave.class.getResourceAsStream("sprites/" + filename);
 
         try {
             img = ImageIO.read(is);
