@@ -29,7 +29,7 @@ public class LevelView extends AbstractView {
     }
 
     private void loadImg() {
-//        this.levelImg = LoadSave.loadSprite(LoadSave.LEVEL_TILES);
+        this.levelImg = LoadSave.loadSprite(LoadSave.LEVEL_TILES);
         this.player = LoadSave.loadSprite(LoadSave.PLAYER);
     }
 

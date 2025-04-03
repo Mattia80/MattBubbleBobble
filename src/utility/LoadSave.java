@@ -73,22 +73,25 @@ public class LoadSave {
      * @return le immagini presenti nel file passato in input
      */
     public static BufferedImage loadSprite(String filename) {
-        BufferedImage img = null;
-        InputStream is = LoadSave.class.getResourceAsStream("sprites/" + filename);
+        BufferedImage image = null;
+        String path = "/sprites/" + filename;
+        InputStream stream = LoadSave.class.getResourceAsStream(path);
 
         try {
-            img = ImageIO.read(is);
+            if (stream != null) {
+                image = ImageIO.read(stream);
+            }
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
             try {
-                is.close();
+                stream.close();
             } catch (Exception e2) {
                 e2.printStackTrace();
             }
         }
 
-        return img;
+        return image;
     }
 
 }

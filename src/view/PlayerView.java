@@ -94,11 +94,16 @@ public class PlayerView extends AbstractView implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-
+        this.updateAniTick();
+        this.updateAnimation();
     }
 
     @Override
     public void render(Graphics g) {
-
+        Player player = this.getPlayer();
+        int flipX = this.getPlayerController().getFlipX();
+        int flipW = this.getPlayerController().getFlipW();
+        g.drawImage(this.playerAnimations[this.currentAnimation][this.aniIndex], (int) player.getHitbox().x + flipX,
+                (int) player.getHitbox().y, player.getWidth() * flipW, player.getHeight(), null);
     }
 }

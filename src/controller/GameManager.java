@@ -17,7 +17,6 @@ public class GameManager implements Runnable {
     private final int UPS = 200;
     private StateGamePlay gamePlayState;
 
-
     public static GameManager getInstance() {
         if (instance == null) {
             instance = new GameManager();
@@ -27,14 +26,15 @@ public class GameManager implements Runnable {
 
     private GameManager() {
         this.gamePanel = new GamePanel(this);
-        this.initClasses();
         this.gameWindow = new GameWindow(gamePanel);
+        this.initClasses();
         this.gamePanel.setFocusable(true);
         this.gamePanel.requestFocus();
     }
 
     private void initClasses() {
         this.gamePlayState = new StateGamePlay(this);
+        this.initListeners();
     }
 
     public GamePanel getGamePanel() {
@@ -67,7 +67,7 @@ public class GameManager implements Runnable {
 
     public void update() {
         switch (GameState.state) {
-
+            case GAMEPLAY -> this.gamePlayState.update();
         }
     }
 
