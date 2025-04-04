@@ -145,6 +145,14 @@ public class PlayerController extends AbstractController {
         }
     }
 
+    public void hit() {
+        Player player = this.getPlayer();
+
+        if (!player.isHit()) {
+            player.setHit(true);
+        }
+    }
+
     private void jump() {
         Player player = this.getPlayer();
         if (!player.isInAir()) {
