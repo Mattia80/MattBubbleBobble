@@ -1,13 +1,10 @@
 package gamestates;
 
-import controller.BubbleController;
-import controller.GameManager;
-import controller.LevelController;
-import controller.PlayerController;
-import model.Game;
-import model.Level;
-import model.Player;
+import controller.*;
+import model.*;
 import utility.GameConstants;
+import utility.HelpMethods;
+import view.EnemyView;
 import view.LevelView;
 import view.PlayerView;
 
@@ -20,12 +17,17 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Map;
+import java.util.Random;
+
+import static utility.GameConstants.Enemy.*;
 
 public class StateGamePlay extends AbstractGameState implements StateInterface {
 
     private PlayerController playerController;
     private ArrayList<BubbleController> bubbleControllers;
     private LevelController levelController;
+    private ArrayList<EnemyController> enemyControllers;
 
 
     public StateGamePlay(GameManager gameManager) {
@@ -50,6 +52,59 @@ public class StateGamePlay extends AbstractGameState implements StateInterface {
         this.initGame();
         this.initPlayer();
         this.initLevel();
+        this.initEnemies();
+    }
+
+    private void initEnemies() {
+        this.enemyControllers = new ArrayList<>();
+        String path = "/levels/level_" + Game.getInstance().getLevel() + ".txt";
+        try (InputStream is = LevelView.class.getResourceAsStream(path)) {
+            if (is == null) {
+                throw new FileNotFoundException(path);
+            }
+            try (BufferedReader br = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8))) {
+                String line = br.readLine();
+                int lineNumber = 0;
+                while (line != null) {
+                    for (int i = 0; i < line.length(); i++) {
+                        if (!HelpMethods.isNumeric(line.substring(i, i + 1))) {
+                            continue;
+                        }
+                        int enemyType = Integer.parseInt(line.substring(i, i + 1));
+                        this.createEnemy(enemyType, i, lineNumber);
+                    }
+                    lineNumber++;
+                    line = br.readLine();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void createEnemy(int enemyType, int row, int column) {
+        AbstractEnemy model = null;
+        int x = row * GameConstants.Tiles.TILES_SIZE;
+        int y = column * GameConstants.Tiles.TILES_SIZE;
+
+        Random rn = new Random();
+        String id = "enemy" + rn.nextInt();
+
+        switch (enemyType) {
+            case BENZO -> model = new Benzo(x, y, id);
+            case BLUBBA -> model = new Blubba(x, y, id);
+            case BONNIEBO -> model = new BonnieBo(x, y, id);
+        }
+
+        EnemyController enemyController = new EnemyController();
+        EnemyView enemyView = new EnemyView(model, enemyController);
+        enemyController.setModel(model);
+        enemyController.setView(enemyView);
+        enemyController.setPlaying(this);
+        this.enemyControllers.add(enemyController);
+        this.levelController.updateNumberOfEnemiesByOne();
     }
 
     private void initGame() {
